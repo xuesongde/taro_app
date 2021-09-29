@@ -1,27 +1,27 @@
 // eslint-disable-next-line import/no-commonjs
-const path = require('path');
+const path = require("path");
 
 const config = {
-  projectName: 'taro-starter',
-  date: '2020-12-7',
+  projectName: "taro-starter",
+  date: "2020-12-7",
   designWidth: 750,
   deviceRatio: {
     640: 2.34 / 2,
     750: 1,
     828: 1.81 / 2
   },
-  sourceRoot: 'src',
-  outputRoot: 'dist',
+  sourceRoot: "src",
+  outputRoot: "dist",
   defineConstants: {},
   alias: {
-    '@': path.resolve(__dirname, '..', 'src'),
-    '~@': path.resolve(__dirname, '..', 'src'),
+    "@": path.resolve(__dirname, "..", "src"),
+    "~@": path.resolve(__dirname, "..", "src")
   },
   copy: {
     patterns: [],
     options: {}
   },
-  framework: 'react',
+  framework: "react",
   mini: {
     postcss: {
       pxtransform: {
@@ -37,15 +37,15 @@ const config = {
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'global', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
+          namingPattern: "global", // 转换模式，取值为 global/module
+          generateScopedName: "[name]__[local]___[hash:base64:5]"
         }
       }
     }
   },
   h5: {
-    publicPath: '/',
-    staticDirectory: 'static',
+    publicPath: "/",
+    staticDirectory: "static",
     postcss: {
       autoprefixer: {
         enable: true,
@@ -54,17 +54,20 @@ const config = {
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'global', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
+          namingPattern: "global", // 转换模式，取值为 global/module
+          generateScopedName: "[name]__[local]___[hash:base64:5]"
         }
       }
+    },
+    devServer: {
+      hot: false
     }
   }
-}
+};
 
-module.exports = function (merge) {
-  if (process.env.NODE_ENV === 'development') {
-    return merge({}, config, require('./dev'))
+module.exports = function(merge) {
+  if (process.env.NODE_ENV === "development") {
+    return merge({}, config, require("./dev"));
   }
-  return merge({}, config, require('./prod'))
-}
+  return merge({}, config, require("./prod"));
+};

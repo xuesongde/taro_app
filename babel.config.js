@@ -3,12 +3,16 @@
 // eslint-disable-next-line import/no-commonjs
 module.exports = {
   presets: [
-    ['taro', {
-      framework: 'react',
-      ts: false,
-      targets: {
-        ios: '12'
+    [
+      "taro",
+      {
+        framework: "react",
+        ts: false,
+        targets: {
+          ios: "12"
+        },
+        hot: false
       }
-    }]
+    ]
   ]
-}
+};

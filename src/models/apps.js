@@ -1,32 +1,44 @@
 import API from "@/services/api";
 import Utils from "@/utils/utils";
 
-const FILL_ALL_COUPON = 'fillAllCoupon'
-
 const initState = {
   allCoupon: [],
-}
+  userInfo: {},
+  loginData: {}
+};
 
 export default {
-  namespace: 'apps',
+  namespace: "apps",
   state: initState,
   effects: {
-    * listCoupon({payload = {}, callback}, {put}) {
+    *listCoupon({ payload = {}, callback }, { put }) {
       let result = yield API.listCoupon(payload);
       if (Utils.isSuccess(result)) {
-        yield put({type: FILL_ALL_COUPON, payload: result.data});
+        yield put({ type: "fillAllCoupon", payload: result.data });
         if (callback) callback(result);
       }
-    },
+    }
   },
   reducers: {
-    [FILL_ALL_COUPON](state, {payload}) {
+    ["fillAllCoupon"](state, { payload }) {
       return {
         ...state,
         allCoupon: payload
       };
     },
-  },
+    ["userInfo"](state, { payload }) {
+      return {
+        ...state,
+        userInfo: payload
+      };
+    },
+    ["loginData"](state, { payload }) {
+      return {
+        ...state,
+        loginData: payload
+      };
+    }
+  }
   // subscriptions: {
   //   setup({dispatch, history}, done) {
   //     return history.listen(({pathname, search}) => {
