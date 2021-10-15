@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { AtIcon, AtNavBar, AtTabBar } from "taro-ui";
 import Taro from "@tarojs/taro";
 import classnames from "classnames";
@@ -13,18 +14,33 @@ import styles from "./index.less";
 
 let tabBar = [
   { title: "首页", iconType: "home", url: "/pages/index/index" },
-  { title: "优惠", iconType: "shopping-bag", url: "/pages/discount/index" },
-  { title: "工具", iconType: "lightning-bolt", url: "/pages/login/index" },
-  { title: "个人中心", iconType: "user", url: "/pages/login/index" }
+  { title: "申请", iconType: "shopping-bag", url: "/pages/common/apply/index" },
+  {
+    title: "用户",
+    iconType: "lightning-bolt",
+    url: "/pages/common/user/index"
+  },
+  {
+    title: "用户详情",
+    iconType: "user",
+    url: "/pages/common/user/detail/index"
+  }
 ];
-
+@connect(
+  ({ apps }) => ({
+    apps
+  }),
+  dispatch => ({
+    $setTabIndex: (args = 0) =>
+      dispatch({ type: "apps/setTabIndex", payload: args })
+  })
+)
 class Index extends React.Component {
   state = {
     defaultHeaderHeight: 0,
     statusBarHeight: 0,
     hasScroll: false,
     appbarHeight: null,
-    tabIndex: 0,
     closeAddTips: false
   };
 
@@ -83,9 +99,11 @@ class Index extends React.Component {
       hasScroll,
       tabBarHeight,
       appbarHeight,
-      closeAddTips,
-      tabIndex
+      closeAddTips
     } = this.state;
+    let {
+      apps: { tabIndex }
+    } = this.props;
     let appbarStyle = {
       backgroundColor: hideNavBar ? "none" : "rgba(255, 255, 255, .98)",
       height: defaultHeaderHeight,
@@ -177,13 +195,16 @@ class Index extends React.Component {
   };
 
   onClickTab = index => {
-    let { tabIndex } = this.state;
+    let {
+      apps: { tabIndex }
+    } = this.props;
     if (tabIndex === index) {
       return;
     }
     let { url } = tabBar[index];
-    this.setState({ tabIndex: index });
-    Taro.navigateTo({ url }).then(res => {});
+    const { $setTabIndex } = this.props;
+    $setTabIndex(index);
+    Taro.redirectTo({ url }).then(res => {});
   };
 }
 

@@ -16,95 +16,23 @@ import { PageKey } from "@/utils/pages";
     index,
     apps
   }),
-  dispatch => ({
-    // $listRecommend: (args = {}) => dispatch({type: 'index/listRecommend', ...args}),
-    // $search: (args = {}) => dispatch({type: 'index/search', ...args})
-  })
+  dispatch => ({})
 )
 class Index extends Component {
   state = {
-    avatarUrl: null
+    title: "this is home page"
   };
-
-  componentWillMount() {
-    Events.onUpdateUser(this.refreshAvatarUrl);
-  }
-
-  componentDidShow() {
-    this.refreshAvatarUrl();
-  }
-
-  componentWillUnmount() {
-    Events.offUpdateUser(this.refreshAvatarUrl);
-  }
-
-  refreshAvatarUrl = () => {
-    const { apps } = this.props;
-    console.log("refreshAvatarUrl...", this.props);
-    this.setState({
-      avatarUrl: apps?.userInfo?.userInfo?.avatarUrl
-    });
-  };
-
   render() {
-    let { avatarUrl = "" } = this.state;
-    let { index, apps } = this.props;
-
+    const taroEnv = Taro.getEnv();
+    const { title } = this.state;
     return (
-      <PageLayout
-        avatarUrl={avatarUrl}
-        hideBarton={true}
-        hideAvatar={false}
-        title="首页"
-        showAddTips
-        hideNavBar={false}
-        hideTabBar={false}
-        containerClassName={styles.page}
-      >
-        <View className={styles.indexBg}>
-          <SearchBar
-            className={styles.searchBar}
-            data={index?.searchResult}
-            onChangeKeyword={this.onChangeKeyword}
-          />
-        </View>
-        <View className={styles.containerWrapper}>
-          <View className={styles.header}>
-            <ColorTitle className={styles.title}>
-              {apps?.userInfo?.userInfo?.nickName}
-            </ColorTitle>
-            <Text />
-          </View>
-        </View>
-      </PageLayout>
+      <>
+        {taroEnv == "WEAPP" ? (
+          <View className={styles.weapp}>{title}</View>
+        ) : null}
+        {taroEnv == "WEB" ? <View className={styles.h5}>{title}</View> : null}
+      </>
     );
-  }
-
-  onChangeKeyword = e => {
-    let keyword = e?.detail?.value;
-    let { $search } = this.props;
-    $search({ payload: { keyword } });
-  };
-
-  onShareAppMessage(res) {
-    if (res.from === "button") {
-      // 来自页面内转发按钮
-      console.log(res.target);
-    }
-
-    return {
-      title: `分享到好友`,
-      path: `${PageKey.INDEX_PAGE}?${qs.stringify({})}`
-    };
-  }
-
-  onShareTimeline() {
-    return {
-      title: `分享到朋友圈`,
-      query: {},
-      imageUrl:
-        "http://cdn.hocgin.top/%E5%85%AC%E4%BC%97%E5%8F%B7%E4%BA%8C%E7%BB%B4%E7%A0%81.png"
-    };
   }
 }
 

@@ -4,7 +4,8 @@ import Utils from "@/utils/utils";
 const initState = {
   allCoupon: [],
   userInfo: {},
-  loginData: {}
+  loginData: {},
+  tabIndex: 0
 };
 
 export default {
@@ -36,6 +37,12 @@ export default {
       return {
         ...state,
         loginData: payload
+      };
+    },
+    ["setTabIndex"](state, { payload }) {
+      return {
+        ...state,
+        tabIndex: payload
       };
     }
   }

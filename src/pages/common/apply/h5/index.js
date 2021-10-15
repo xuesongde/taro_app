@@ -10,16 +10,27 @@ import { AtButton, AtInput, AtToast } from "taro-ui";
 import classnames from "classnames";
 import { dispatchType } from "@/utils/model-utils";
 import styles from "./index.less";
-import Apply_h5 from "./h5/index.js";
-import Apply_weapp from "./weapp/index.js";
+
+@connect(
+  ({ apps }) => ({
+    apps
+  }),
+  dispatch => ({
+    $setUserInfo: (args = {}) => dispatch({ type: "apps/userInfo", ...args })
+  })
+)
 class Index extends Component {
+  state = {
+    isShowPhone: false
+  };
+  // 手机号验证码登录
+  loginWithAccount = () => {};
   render() {
-    const taroEnv = Taro.getEnv();
+    console.log("apply page props...", this.props);
     return (
-      <>
-        {taroEnv === "WEAPP" ? <Apply_weapp /> : null}
-        {taroEnv === "WEB" ? <Apply_h5 /> : null}
-      </>
+      <View className={styles.apply_h5} onClick={this.loginWithAccount}>
+        已有账号登陆/注册
+      </View>
     );
   }
 }

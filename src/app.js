@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 import Taro from "@tarojs/taro";
 import Pages from "@/utils/pages";
+import { View, Text, Image } from "@tarojs/components";
 import dva from "@/utils/dva";
 import models from "@/models";
 import Utils from "@/utils/utils";
@@ -10,7 +11,7 @@ import { Keys, setStorageSync, getStorageSync } from "@/utils/storage";
 import API from "@/services/api";
 
 import "./theme.global.scss";
-import "./app.less";
+import styles from "./app.less";
 
 const dvaApp = dva.createApp({
   models: models
@@ -92,7 +93,6 @@ class App extends Component {
   // 获取用户信息
   loadUserInfo() {
     const taroEnv = Taro.getEnv();
-    console.log("environment...", Taro.getEnv());
     // taroEnv == "WEAPP" &&
     switch (taroEnv) {
       case "WEAPP":
@@ -105,7 +105,13 @@ class App extends Component {
   }
 
   render() {
-    return <Provider store={store}> {this.props.children} </Provider>;
+    const taroEnv = Taro.getEnv();
+    console.log("environment...", taroEnv, this.props.children);
+    return (
+      <Provider store={store}>
+        <View className={styles.app}>{this.props.children}</View>
+      </Provider>
+    );
   }
 }
 

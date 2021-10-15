@@ -2,16 +2,17 @@
 const path = require("path");
 
 const config = {
-  projectName: "taro-starter",
-  date: "2020-12-7",
-  designWidth: 750,
+  projectName: "taro-app",
+  date: "2021-10-11",
+  designWidth: 375,
   deviceRatio: {
     640: 2.34 / 2,
     750: 1,
-    828: 1.81 / 2
+    828: 1.81 / 2,
+    375: 2 / 1
   },
   sourceRoot: "src",
-  outputRoot: "dist",
+  outputRoot: `dist/${process.env.TARO_ENV}`,
   defineConstants: {},
   alias: {
     "@": path.resolve(__dirname, "..", "src"),
@@ -23,6 +24,7 @@ const config = {
   },
   framework: "react",
   mini: {
+    // commonChunks: ["runtime", "vendors", "taro", "common"],
     postcss: {
       pxtransform: {
         enable: true,
